@@ -11,49 +11,33 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class BlogController extends AbstractController
+class AdminController extends AbstractController
 {
-    #[Route('/blog', name: 'app_blog')]
-    public function index(ArticleRepository $repo): Response
+    #[Route('/admin', name: 'app_admin')]
+    public function index(): Response
     {
-        // $repo = $this->getDoctrine()->getRepository(Article::class);
-        // la ligne suivante permet de sélectionner tous les articles
+        return $this->render('admin/index.html.twig', [
+            'controller_name' => 'AdminController',
+        ]);
+    }
+    
+    #[Route('/admin/articles', name: 'admin_articles')]
+    public function adminArticles(ArticleRepository $repo, EntityManagerInterface $em)
+    {
+        // récupération des noms des colonnes SQL
+        $colonnes = $em->getClassMetadata(Article::class)->getFieldNames();
+        // récupérations de tout les articles
         $articles = $repo->findAll();
-        // dd($articles);
 
-        return $this->render('blog/index.html.twig', [
-            'controller_name' => 'BlogController',
-            'articles' => $articles
+        return $this->render('admin/admin_articles.html.twig', [
+            'articles' => $articles,
+            'colonnes' => $colonnes
         ]);
     }
 
-    #[Route('/', name: 'home')]
-    public function home(): Response 
-    {
-        return $this->render('blog/home.html.twig', [
-            'title' => 'Bienvenue sur le blog Symfony',
-            'age' => 25
-        ]);
-    }
-    
-    #[Route('/blog/show/{id}', name: 'blog_show')]
-    public function show(ArticleRepository $repo, $id)
-    {
-        /*
-        Pour sélectionner un article dans la BDD, nous utilisons le principe de route paramétrée
-        Dans la route, on définit un paramètre de type {id}
-        Lorsque nous transmettons dans l'URL par exemple une route '/blog/9', on envoie un id conne en BDD dans l'URL
-        Symfony va automatiquement récupérer ce paramètre et le transmettre en argument de la méthode show()
-        */
-        $article = $repo->find($id);
-        return $this->render('blog/show.html.twig', [
-            'article' => $article
-        ]);
-    }
-    
-    #[Route('/blog/new', name: 'blog_create')]
-    #[Route('/blog/{id}/edit', name: 'blog_edit')]
-    public function form(Request $request, EntityManagerInterface $manager, Article $article = null)
+    #[Route('/admin/article/new', name: 'admin_new_article')]
+    #[Route('/admin/{id}/edit-article', name: 'admin_edit_article')]
+    public function editArticle(Request $request, EntityManagerInterface $manager, Article $article = null)
     {
         // la classe Request contient les données véhiculées par les superglobales ($_POST, $_GET ...)
         // $article = new Article; // je crée un objet Article vide prêt à être rempli
@@ -73,12 +57,10 @@ class BlogController extends AbstractController
             $manager->persist($article); // prépare l'insertion de l'article
             $manager->flush(); // on exécute la requête d'insertion 
             // cette méthode permet de nous rediriger vers la page de notre article nouvellement crée
-            return $this->redirectToRoute('blog_show', [
-                'id' => $article->getId()
-            ]);
+            return $this->redirectToRoute('admin_articles');
         }
-        return $this->render('blog/form.html.twig', [
-            'formArticle' => $form->createView(),
+        return $this->render('admin/edit_article.html.twig', [
+            'formEdit' => $form->createView(),
             // createView() renvoie un objet représentant l'affichage du formulaire
             'editMode' => $article->getId() !== NULL 
             // si nous sommes sur la route /new : editMode = 0
@@ -87,7 +69,3 @@ class BlogController extends AbstractController
     }
 
 }
-
-
-
-

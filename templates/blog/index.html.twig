@@ -17,7 +17,7 @@
             </div>
             {{ article.content | raw }}
 
-            <a href="{{ path('blog_show') }}">Lire la suite</a>
+            <a href="{{ path('blog_show', {"id" : article.id }) }}">Lire la suite</a>
         </div>
     </article>
 

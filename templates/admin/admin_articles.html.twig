@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="text-center my-5">
+<h1 class="my-4">GESTION DES ARTICLES</h1>
+<div class="alert alert-info">💬 Vous trouverez ci-dessous le tableau contenant l'ensemble des articles du blog</div>
+<a href="{{ path('admin_new_article') }}" class="btn btn-primary mt-3">Ajouter un article</a>
+</div>
+<table class="table table-bordered text-center">
+    <thead class="table-dark">
+        <tr>
+            {% for data in colonnes %}
+            {% if data != 'id' %}
+            <th>{{ data }}</th>
+            {% endif %}
+            {% endfor %}
+            <th>Voir</th>
+            <th>Editer</th>
+            <th>Supprimer</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for data in articles %}
+        <tr>
+            <td>{{ data.title }}</td>
+            <td>{{ data.content | raw }}</td>
+            <td><img src="{{ data.image }}" alt="image de l'article" style="width: 150px;"></td>
+            <td>{{ data.createdAt | date('d/m/Y à H:i:s') }}</td>
+            <td><a href="{{ path('blog_show', {"id" : data.id }) }}" class="btn btn-success"><i class="fa-solid fa-eye"></i></a></td>
+            <td><a href="{{ path('admin_edit_article', {"id" : data.id }) }}" class="btn btn-primary"><i class="fa-solid fa-pen-to-square"></i></a></td>
+            <td><a href="" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></a></td>
+        </tr>
+        {% endfor %}
+
+    </tbody>
+</table>
+
+{% endblock %}
