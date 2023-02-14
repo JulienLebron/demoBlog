@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+{# le mot clé extends permet d'hériter d'un template #}
+{# Lorsque nous héritons d'un template, le reste du code doit se trouver dans les blocks #}
+{# Le contenu des blocks de la page écrase le contenu des blocks de la base #}
+
+{% block body %}
+<h1>{{ title }}</h1>
+
+
+{% if age > 18 %}
+    <p>Tu es majeur !!</p>
+{% else %}
+    <p>Tu es mineur !!</p>
+{% endif %}
+
+{% endblock %}
+
+
+
+
