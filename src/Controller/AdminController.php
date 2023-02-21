@@ -68,4 +68,16 @@ class AdminController extends AbstractController
         ]);
     }
 
+    #[Route('/admin/{id}/delete-article', name: 'admin_delete_article')]
+    public function deleteArticle(Article $article, EntityManagerInterface $manager)
+    {
+        $manager->remove($article);
+        $manager->flush();
+
+        // on envoi un message d'alerte vers la vue
+        $this->addFlash('success', "✅ L'article à bien été supprimé !");
+
+        return $this->redirectToRoute('admin_articles');
+    }
+    
 }

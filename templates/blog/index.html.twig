@@ -8,9 +8,10 @@
 
     {% for article in articles %}
 
-    <article class="text-center border border-dark my-3 p-1">
+    {# <article class="text-center border border-dark my-3 p-1">
         <h2>{{ article.title }}</h2>
-        <div class="metadata">Ecrit le {{ article.createdAt | date('d/m/Y') }} à {{ article.createdAt | date('H:i:s') }} dans la catégorie Politique</div>
+        <div class="metadata">Ecrit le {{ article.createdAt | date('d/m/Y') }} à {{ article.createdAt | date('H:i:s') }}
+            dans la catégorie Politique</div>
         <div class="content">
             <div class="container">
                 <img src="{{ article.image }}" alt="image de l'article" class="img-fluid my-4">
@@ -19,7 +20,26 @@
 
             <a href="{{ path('blog_show', {"id" : article.id }) }}">Lire la suite</a>
         </div>
-    </article>
+    </article> #}
+
+    <div class="card text-center mb-4" style="width: 25rem;">
+        <img src="{{ asset('images/articles/' ~ article.image ) }}" class="card-img-top" alt="image de l'article" style="height: 250px;">
+        <div class="card-body">
+            <h5 class="card-title">{{ article.title }}</h5>
+            <p class="card-text my-3">{{ article.content | slice(0, 200) | raw }}</p>
+        </div>
+        <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <th scope="row">Ecrit le {{ article.createdAt | date('d/m/Y') }}</th>
+                    <th><span class="badge rounded-pill text-bg-primary">{{ article.category.title }}</span></th>
+                </tr>
+            </tbody>
+        </table>
+        <div class="card-footer">
+            <a href="{{ path('blog_show', {"id" : article.id }) }}" class="btn btn-primary" style="background: #8900E5; color: white;">Lire la suite</a>
+        </div>
+    </div>
 
 
     {% endfor %}

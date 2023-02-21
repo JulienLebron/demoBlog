@@ -2,7 +2,7 @@
 
 {% block body %}
 
-<section class="row article">
+{# <section class="row article">
     <article class="col-md-3 mw-auto text-center border border-dark mb-3 p-3 mt-3 mr-1">
         <h2>{{ article.title }}</h2>
         <div class="metadata">Ecrit le {{ article.createdAt | date('d/m/Y') }} à {{ article.createdAt | date('H:i:s') }} dans la catégorie Politique</div>
@@ -11,7 +11,81 @@
             {{ article.content | raw }}
         </div>
     </article>
-</section>
+</section> #}
+<div class="container text-center mt-5">
+    <h1>{{ article.title }}</h1>
+    <div class="card mt-5" style="width: 50rem; margin: 0 auto">
+        <img src="{{ asset('images/articles/' ~ article.image ) }}" alt="photo de l'article">
+        <div class="card-body mt-5">
+            <p>{{ article.content | raw }}</p>
+        </div>
+        <div class="card-footer">
+            <table class="table table-bordered">
+                <tbody>
+                    <tr style="background: #8900E5; color: white;">
+                        <th scope="col">Date de publication</th>
+                        <th scope="col">Catégorie</th>
+                    </tr>
+                    <tr>
+                        <td>{{ article.createdAt | date('d/m/Y') }}</td>
+                        <td><span class="badge rounded-pill text-bg-primary">{{ article.category.title }}</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+{# 
+<div class="container text-center">
+    <div class="card text-center mb-4 mx-auto" style="width: 50rem;">
+        <img src="{{ asset('images/articles/' ~ article.image ) }}" class="card-img-top" alt="image de l'article" style="height: 250px;">
+        <div class="card-body">
+            <h5 class="card-title">{{ article.title }}</h5>
+            <p class="card-text my-3">{{ article.content | raw | slice(0, 200)|split(' ')|slice(0, -1)|join(' ')|trim ~ '...' }}</p>
+            <div class="metadata my-3">Ecrit le {{ article.createdAt | date('d/m/Y') }} à {{ article.createdAt | date('H:i:s') }}
+            dans la catégorie {{ article.category.title }}</div>
+        </div>
+    </div> #}
+
+
+<div class="container my-5 text-center">
+    <h2>Commentaires</h2>
+        <div class="row">
+            {% for comment in article.comments %}
+            <div class="col-md-6">
+                <div class="container my-4 border">
+                    <div class="py-4">
+                        {{ comment.author }} (<small>{{ comment.createdAt | date('d/m/Y à h:i:s')}}</small>)
+                    </div>
+                    <hr>
+                    <div>
+                        {{ comment.content | raw }}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+</div>
+
+{# <section>
+    {% for comment in article.comments %}
+    <div class="comment">
+        <div class="row">
+            <div class="col-md-3">
+                {{ comment.author }} (<small>{{ comment.createdAt | date('d/m/Y à h:i:s')}}</small>)
+            </div>
+            <div class="col-md-9">
+                {{ comment.content | raw }}
+            </div>
+        </div>
+    </div>
+    <hr>
+    {% endfor %}
+</section> #}
+{# </div> #}
 
 
 {% endblock %}

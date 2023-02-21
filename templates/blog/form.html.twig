@@ -24,8 +24,9 @@
 
 {# form_row() permet de gérer l'affichage d'un champ et de son label #}
 {{ form_row(formArticle.title, { 'attr': {'placeholder': "Titre de l'article"} }) }}
+{{ form_row(formArticle.category, { 'attr': {'placeholder': "La catégorie de l'article"} }) }}
 {{ form_row(formArticle.content, { 'attr': {'placeholder': "Contenu de l'article"} }) }}
-{{ form_row(formArticle.image, { label: "Ajouter une image" }) }}
+{{ form_row(formArticle.imageFile, { label: "Ajouter une image" }) }}
 
 <div class="text-center">
 <button type="submit" class="btn btn-primary mt-2">
