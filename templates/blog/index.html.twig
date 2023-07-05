@@ -1,0 +1,35 @@
+{% extends "base.html.twig" %}
+{# le mot-clef extends permet d'hériter d'un template #}
+{# lorsque nous héritons d'un template, le reste du code doit se trouver dans des blocks #}
+
+{% block body %}
+
+{# On affiche le contenu de la variable "title" avec le moteur TWIG #}
+{# double accolades = interpolation #}
+
+   {# {{ dump(articles) }} #}
+
+<div class="container d-flex justify-content-around flex-wrap">
+    {% for article in articles %}
+        <div class="card text-center mb-4" style="width: 25rem;">
+            <img src="{{ article.image }}" class="card-img-top" alt="image de l'article" style="height: 250px;">
+            <div class="card-body">
+                <h5 class="card-title">{{ article. title }}</h5>
+                <p class="card-text my-3">{{ article.content | raw }}</p>
+            </div>
+            <table class="table table-bordered">
+                <tbody>
+                    <tr>
+                        <th scope="row">Ecrit le {{ article.createdAt | date('d/m/Y') }}</th>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="card-footer">
+                <a href="#" class="btn btn-primary">Lire la suite</a>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+{% endblock %}
+
