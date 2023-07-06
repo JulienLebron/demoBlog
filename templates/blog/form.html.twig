@@ -1,0 +1,49 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+
+<h1>
+    {% if editMode %}
+        Modification de l'article 
+    {% else %} 
+        Création d'un article 
+    {% endif %}
+</h1>
+
+{# {{ form(formArticle) }} #}
+{# form() est un fonction twig permettant d'afficher un formulaire #}
+
+{{ form_start(formArticle, {
+    attr : {
+        novalidate: 'novalidate'
+    }
+}) }}
+{# form_start() et form_end() permettent de délimiter un formulaire, de modifier ses champs, de changer la méthode du formulaire ...0 #}
+
+{# form_widget() permet de gérer l'affichage d'un champ #}
+{# {{ form_widget(formArticle.title) }}
+{{ form_widget(formArticle.content) }}
+{{ form_widget(formArticle.image) }} #}
+
+{# form_row() permet de gérer l'affichage d'un champ et de son label  #}
+{{ form_row(formArticle.title, {
+    label : "Titre",
+    attr: {
+        placeholder: "Titre de l'article"
+    }
+}) }}
+{{ form_row(formArticle.category) }}
+{{ form_row(formArticle.content, {'attr': {'placeholder': "Contenu de l'article"}}) }}
+{{ form_row(formArticle.image, {label: "Ajouter une image"}) }}
+
+<button type="submit" class="btn btn-primary mt-2">
+{% if editMode %}
+    ✅ Enregistrer les modifications
+{% else %}
+    ✅ Ajouter l'article
+{% endif %}
+</button>
+
+{{ form_end(formArticle) }}
+
+{% endblock %}

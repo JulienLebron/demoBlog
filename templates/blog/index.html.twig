@@ -15,17 +15,18 @@
             <img src="{{ article.image }}" class="card-img-top" alt="image de l'article" style="height: 250px;">
             <div class="card-body">
                 <h5 class="card-title">{{ article. title }}</h5>
-                <p class="card-text my-3">{{ article.content | raw }}</p>
+                <p class="card-text my-3">{{ article.content | slice(0, 200) | raw }}</p>
             </div>
             <table class="table table-bordered">
                 <tbody>
                     <tr>
                         <th scope="row">Ecrit le {{ article.createdAt | date('d/m/Y') }}</th>
+                        <th><span class="badge rounded-pill text-bg-primary">{{ article.category.title | slice(0, 20) }}</span></th>
                     </tr>
                 </tbody>
             </table>
             <div class="card-footer">
-                <a href="#" class="btn btn-primary">Lire la suite</a>
+                <a href="{{ path('blog_show', {"id" : article.id }) }}" class="btn btn-primary">Lire la suite</a>
             </div>
         </div>
     {% endfor %}
