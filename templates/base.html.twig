@@ -40,17 +40,28 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{{ path('app_blog') }}">Accueil</a>
+                        <a class="nav-link active" aria-current="page" href="{{ path('app_blog') }}"><i class="fa-solid fa-house-chimney"></i> Accueil</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('app_blog') }}">Liste des articles</a>
+                        <a class="nav-link" href="{{ path('app_blog') }}"><i class="fa-solid fa-rectangle-list"></i> Liste des articles</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('blog_create') }}">Nouvel article</a>
+                        <a class="nav-link" href="{{ path('blog_create') }}"><i class="fa-solid fa-plus"></i> Ajouter article</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">#</a>
-                    </li>
+                </ul>
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    {% if app.user %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('app_logout') }}"><i class="fa-solid fa-right-from-bracket"></i> Se déconnecter</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('app_register') }}"><i class="fa-solid fa-user-plus"></i> Inscription</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('app_login') }}"><i class="fa-solid fa-unlock"></i> Connexion</a>
+                        </li>
+                    {% endif %}
                 </ul>
             </div>
         </div>

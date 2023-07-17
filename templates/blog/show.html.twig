@@ -5,7 +5,7 @@
     <div class="container text-center mt-5">
         <h1>{{ article.title }} {{ article.id }}</h1>
         <div class="card mt-5" style="width: 50rem; margin: 0 auto;">
-            <img src="{{ article.image }}" alt="Image de l'article">
+            <img src="{{ asset('images/articles/' ~ article.image) }}" alt="Image de l'article">
             <div class="card-body mt-5">
                 <p>{{ article.content | raw }}</p>
             </div>

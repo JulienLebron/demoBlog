@@ -9,10 +9,17 @@
 
    {# {{ dump(articles) }} #}
 
+{% for message in app.flashes('success') %}
+    <div class="col-md-5 mx-auto alert alert-success text-center">
+        {{ message }}
+    </div>
+{% endfor %}
+
+
 <div class="container d-flex justify-content-around flex-wrap">
     {% for article in articles %}
         <div class="card text-center mb-4" style="width: 25rem;">
-            <img src="{{ article.image }}" class="card-img-top" alt="image de l'article" style="height: 250px;">
+            <img src="{{ asset('images/articles/' ~ article.image) }}" class="card-img-top" alt="image de l'article" style="height: 250px;">
             <div class="card-body">
                 <h5 class="card-title">{{ article. title }}</h5>
                 <p class="card-text my-3">{{ article.content | slice(0, 200) | raw }}</p>
