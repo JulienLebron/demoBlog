@@ -16,25 +16,17 @@
 {% endfor %}
 
 
-<div class="container d-flex justify-content-around flex-wrap">
+<div class="container d-flex justify-content-between flex-wrap">
     {% for article in articles %}
-        <div class="card text-center mb-4" style="width: 25rem;">
-            <img src="{{ asset('images/articles/' ~ article.image) }}" class="card-img-top" alt="image de l'article" style="height: 250px;">
+        <div class="card mb-5" style="width: 17rem;">
+        <a href="{{ path('blog_show', {"id" : article.id }) }}" style="text-decoration: none; color: white;">
+            <span class="badge rounded-pill text-bg-primary">{{ article.category.title | slice(0, 20) }}</span>
+            <img src="{{ asset('images/articles/' ~ article.image) }}" class="card-img-top" alt="image de l'article">
             <div class="card-body">
-                <h5 class="card-title">{{ article. title }}</h5>
-                <p class="card-text my-3">{{ article.content | slice(0, 200) | raw }}</p>
+                <h5 class="card-title">{{ article. title | slice(0, 40) }}...</h5>
+                <p>🗓️ {{ article.createdAt | date('d/m/Y') }}</p>
             </div>
-            <table class="table table-bordered">
-                <tbody>
-                    <tr>
-                        <th scope="row">Ecrit le {{ article.createdAt | date('d/m/Y') }}</th>
-                        <th><span class="badge rounded-pill text-bg-primary">{{ article.category.title | slice(0, 20) }}</span></th>
-                    </tr>
-                </tbody>
-            </table>
-            <div class="card-footer">
-                <a href="{{ path('blog_show', {"id" : article.id }) }}" class="btn btn-primary">Lire la suite</a>
-            </div>
+        </a>
         </div>
     {% endfor %}
 </div>

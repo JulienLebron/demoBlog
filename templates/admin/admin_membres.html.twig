@@ -1,0 +1,48 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Gestion des membres{% endblock %}
+
+{% block body %}
+<div class="text-center my-5">
+    <h1 class="my-4">Gestion des membres</h1>
+    <div class="alert alert-info">🗨️ Vous trouverez ci-dessous le tableau contenant l'ensemble des membres du blog</div>
+
+    {% for message in app.flashes('success') %}
+        <div class="col-md-5 mx-auto alert alert-success text-center">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+    <a href="{{ path('app_register') }}" class="btn btn-primary mt-3">Crée un membre</a>
+</div>
+
+<table class="table table-bordered table-striped table-hover text-center">
+    <thead class="table-dark">
+        <tr>
+            {% for colonne in colonnes %}
+                {% if (colonne != 'id') and (colonne != 'password') %}
+                    <th>{{ colonne }}</th>
+                {% endif %}
+            {% endfor %}
+            <th>Editer</th>
+            <th>Supprimer</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for membre in membres %}
+            <tr>
+                <td>{{ membre.email }}</td>
+                <td>{{ membre.roles | join(' - ') }}</td>
+                <td>{{ membre.prenom }}</td>
+                <td>{{ membre.nom }}</td>
+                <td>{{ membre.adresse }}</td>
+                <td>{{ membre.ville }}</td>
+                <td>{{ membre.codePostal }}</td>
+                <td><a href="{{ path('app_register_edit', {"id": membre.id }) }}" class="btn btn-warning"> <i class="fa-solid fa-pen-to-square"></i></a></td>
+                <td><a href="{{ path('admin_delete_membre', {"id": membre.id }) }}" class="btn btn-danger"> <i class="fa-solid fa-trash-can"></i></a></td>
+
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

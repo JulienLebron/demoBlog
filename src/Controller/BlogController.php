@@ -3,13 +3,16 @@
 namespace App\Controller;
 
 use App\Entity\Article;
+use App\Entity\Comment;
 use App\Form\ArticleType;
+use App\Form\CommentType;
 use App\Repository\ArticleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
 class BlogController extends AbstractController
 {
@@ -29,7 +32,7 @@ class BlogController extends AbstractController
     }
 
     #[Route('/blog/show/{id}', name: 'blog_show')]
-    public function show(ArticleRepository $repo, $id)
+    public function show(ArticleRepository $repo, $id, Request $request, EntityManagerInterface $manager, Comment $comment = null, Security $security)
     {
         /* Pour sélectionner un article dans la BDD, nous utilisons le principe de route paramètrée. 
         Dans la route, on définie un paramètre de type {id}
@@ -37,7 +40,33 @@ class BlogController extends AbstractController
         Symfony va automatiquement récupérer ce paramètre et le transmettre en argument de la méthode show()*/
         
         $article =  $repo->find($id);
+        if(!$comment)
+        {
+            $comment = new Comment;
+            $user = $security->getUser();
+            if($user){
+                $comment->setAuthor($user->getPrenom());
+            }
+            $comment->setArticle($article);
+            $comment->setCreatedAt(new \DateTime()); // ajout de la date à l'insertion de l'article
+        }
+        $form = $this->createForm(CommentType::class, $comment);
+        // createForm() permet de récupérer un formulaire
+        dump($request); // permet d'afficher les données de l'objet $request
+        $form->handleRequest($request);
+        // handleRequest() permet d'insérer les données du formulaire dans l'objet $article
+        // Pour pouvoir insérer les données en BDD, on récupère le manager et on ajoute le code d'insertion
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $manager->persist($comment); // prépare l'insertion de l'article
+            $manager->flush(); // on exécute la requête d'insertion 
+            // cette méthode permet de nous rediriger vers la page de notre article nouvellement crée
+            return $this->redirectToRoute('blog_show', [
+                'id' => $article->getId()
+            ]);
+        }
         return $this->render('blog/show.html.twig', [
+            'formComment' => $form->createView(),
             'article' => $article
         ]);
     }

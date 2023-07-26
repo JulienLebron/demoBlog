@@ -1,0 +1,48 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Gestion des commentaires{% endblock %}
+
+{% block body %}
+<div class="text-center my-5">
+    <h1 class="my-4">Gestion des commentaires</h1>
+    <div class="alert alert-info">🗨️ Vous trouverez ci-dessous le tableau contenant l'ensemble des commentaires du blog</div>
+
+    {% for message in app.flashes('success') %}
+        <div class="col-md-5 mx-auto alert alert-success text-center">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+    <a href="{{ path('admin_new_comment') }}" class="btn btn-primary mt-3">Crée un commentaire</a>
+</div>
+
+<table class="table table-bordered table-striped table-hover text-center">
+    <thead class="table-dark">
+        <tr>
+            {% for colonne in colonnes %}
+                {% if colonne != 'id' %}
+                    <th>{{ colonne }}</th>
+                {% endif %}
+            {% endfor %}
+            <th>Article</th>
+            <th>Voir</th>
+            <th>Editer</th>
+            <th>Supprimer</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for commentaire in commentaires %}
+            <tr>
+                <td>{{ commentaire.author }}</td>
+                <td>{{ commentaire.content | slice(0, 200) | raw }}</td>
+                <td>{{ commentaire.createdAt | date('d/m/Y à H:i:s') }}</td>
+                <td>{{ commentaire.article.title }}</td>
+                <td><a href="{{ path('blog_show', {"id": commentaire.article.id }) }}" class="btn btn-info"> <i class="fa-solid fa-eye"></i></a></td>
+                <td><a href="{{ path('admin_edit_comment', {"id": commentaire.id }) }}" class="btn btn-warning"> <i class="fa-solid fa-pen-to-square"></i></a></td>
+                <td><a href="{{ path('admin_delete_commentaire', {"id": commentaire.id }) }}" class="btn btn-danger"> <i class="fa-solid fa-trash-can"></i></a></td>
+
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

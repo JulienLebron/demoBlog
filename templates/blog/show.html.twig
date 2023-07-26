@@ -26,13 +26,30 @@
         </div>
     </div>
 
-    <div class="container my-5 text-center">
+    <div class="container my-5">
         <h2>Commentaires</h2>
+        {% if app.user %}
+            <hr>
+            {{ form_start(formComment, {
+                attr : {
+                    novalidate: 'novalidate'
+                }
+            }) }}
+            
+            {{ form_row(formComment.content, {'attr': {'placeholder': "Taper votre commentaire ici."}}) }}
+
+            <button type="submit" class="btn btn-primary mt-2">✅ Poster</button>
+
+            {{ form_end(formComment) }}
+            <hr>
+        {% else %}
+            <div class="alert alert-warning">Vous devez être connecté pour poster un commentaire.</div>
+        {% endif %}
         <div class="row">
             {% for comment in article.comments %}
                 <div class="col-md-6">
                     <div class="container my-4 border">
-                        <div class="py-4">
+                        <div class="pt-4">
                             {{ comment.author }} (<small>{{ comment.createdAt | date('d/m/Y à h:i:s' ) }}</small>)
                         </div>
                         <hr>

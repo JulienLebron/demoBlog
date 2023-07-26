@@ -88,4 +88,10 @@ class Category
 
         return $this;
     }
+
+    public function __toString()
+    {
+        // __toString() est méthode magique qui s'exécute automatiquement lorsqu'on essaye d'afficher un objet
+        return $this->title;
+    }
 }

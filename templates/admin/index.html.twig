@@ -6,9 +6,9 @@
     <div class="text-center">
         <h1 class="my-4">BackOffice</h1>
         <div class="alert alert-info">Bienvenue sur le BackOffice</div>
-        <a href="" class="col-md-6 btn btn-dark mb-2">Gestion des articles</a>
-        <a href="" class="col-md-6 btn btn-dark mb-2">Gestion des catégories</a>
-        <a href="" class="col-md-6 btn btn-dark mb-2">Gestion des membres</a>
-        <a href="" class="col-md-6 btn btn-dark mb-2">Gestion des commentaires</a>
+        <a href="{{ path('admin_articles') }}" class="col-md-6 btn btn-dark mb-2">Gestion des articles</a>
+        <a href="{{ path('admin_categories') }}" class="col-md-6 btn btn-dark mb-2">Gestion des catégories</a>
+        <a href="{{ path('admin_membres') }}" class="col-md-6 btn btn-dark mb-2">Gestion des membres</a>
+        <a href="{{ path('admin_commentaires') }}" class="col-md-6 btn btn-dark mb-2">Gestion des commentaires</a>
     </div>
 {% endblock %}
