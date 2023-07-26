@@ -3,6 +3,9 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Article;
+use App\Entity\Category;
+use App\Entity\Comment;
+use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
@@ -36,7 +39,7 @@ class DashboardController extends AbstractDashboardController
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
-            ->setTitle('DemoBlog')
+            ->setTitle('DemoBlog Administration')
             ->setTranslationDomain('admin');
     }
 
@@ -45,7 +48,10 @@ class DashboardController extends AbstractDashboardController
         return [
             MenuItem::linkToDashboard('Dashboard', 'fa fa-home'), // on génère un lien vers le Dashboard
             MenuItem::section('Blog'), // crée une section pour catégoriser les items du menu
-            MenuItem::linkToCrud('Articles', 'fas fa-list', Article::class), // on génère un lien vers un crud (Article)
+            MenuItem::linkToCrud('Articles', 'fas fa-newspaper', Article::class), // on génère un lien vers un crud (Article)
+            MenuItem::linkToCrud('Catégories', 'fas fa-list', Category::class), // on génère un lien vers un crud (Category)
+            MenuItem::linkToCrud('Comment', 'fas fa-comment', Comment::class), // on génère un lien vers un crud (Comment)
+            MenuItem::linkToCrud('Membres', 'fas fa-user', User::class), // on génère un lien vers un crud (User)
         ];
 
         // yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');

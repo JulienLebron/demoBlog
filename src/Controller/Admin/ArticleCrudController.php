@@ -21,6 +21,9 @@ class ArticleCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
+        $defaut = $_SERVER['DOCUMENT_ROOT'] . '\images\defaut\defaut.jpg';
+        $path = $_SERVER['DOCUMENT_ROOT'] . '\images\articles\defaut.jpg';
+        copy($defaut, $path);
         return [
             TextField::new('title', 'Titre'),
             ImageField::new('image')->setBasePath('images/articles')->setUploadedFileNamePattern('[slug]-[timestamp].[extension]')->setUploadDir('public\images\articles')->setRequired(false),
@@ -30,6 +33,7 @@ class ArticleCrudController extends AbstractCrudController
             DateTimeField::new('updatedAt', 'Date de mise à jour')->setFormat("d/M/Y à H:m:s")->hideOnForm(),
             TextEditorField::new('content', 'Contenu'),
         ];
+
     }
 
     public function createEntity(string $entityFqcn)
@@ -40,13 +44,15 @@ class ArticleCrudController extends AbstractCrudController
 
         $article = new Article;
         $article->setCreatedAt(new \DateTime())
-                ->setUpdatedAt(new \DateTime());
+                ->setUpdatedAt(new \DateTime())
+                ->setImage('defaut.jpg');
         return $article;
     }
 
     public function updateEntity(EntityManagerInterface $entityManager, $entityInstance): void
     {
         // updateEntity() est exécutée lors de la soumission du formulaire de mise à jour
+        // copy('./public/images/defaut/defaut.jpg', './public/images/articles/defaut.jpg');
         $isFile = $entityInstance->getImage();
 
         if(!$isFile)
